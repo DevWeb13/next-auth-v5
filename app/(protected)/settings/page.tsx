@@ -1,18 +1,23 @@
 // app/(protected)/settings/page.tsx
-import { auth, signOut } from '@/auth';
 
-const SettingsPage = async () => {
-  const session = await auth();
+'use client';
+
+import { logout } from '@/actions/logout';
+import { useCurrentUser } from '@/hooks/use-current-user';
+
+const SettingsPage = () => {
+  const user = useCurrentUser();
+
+  const onClick = () => {
+    logout();
+  };
   return (
-    <div>
-      {JSON.stringify(session)}
-      <form
-        action={async () => {
-          'use server';
-          await signOut();
-        }}>
-        <button type='submit'>Logout</button>
-      </form>
+    <div className='rounded-xl bg-white p-10'>
+      <button
+        onClick={onClick}
+        type='submit'>
+        Se déconnecter
+      </button>
     </div>
   );
 };
